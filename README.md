@@ -1,3 +1,6 @@
+![Logo](https://github.com/DataS-DH/R-coding-club/blob/master/SetupDocs/rcodingclubskinny.png)
+
+
 <p align="center">
   <img src="https://github.com/DataS-DH/R-coding-club/blob/master/SetupDocs/rcodingclubskinny.png"/>
 </p>
