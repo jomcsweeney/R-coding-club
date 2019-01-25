@@ -80,7 +80,7 @@ knitr::kable(top50_agg) %>%
 
 #Now like last week lets normalise the data
 top50_agg_norm <- cbind(top50_agg[1],apply(top50_agg[-1],2,
-                                          function(x){(x-min(x))/diff(range(x))}))
+                                           function(x){(x-min(x))/diff(range(x))}))
 
 #Again lets plot a radar chart to have a quick look at the data (this is just small tweaks to last weeks code)
 install.packages("radarchart")
@@ -88,8 +88,8 @@ library(radarchart)
 top50_agg_10 <- top50_agg[top50_agg$country %in% c("GLOBAL", "ARGENTINA", "BRAZIL", "CANADA", "FRANCE", "GERMANY", "HONGKONG", "SPAIN", "TAIWAN", "UNITEDKINGDOM", "UNITEDSTATES"),]
 
 top50_agg_norm_10 <- cbind(top50_agg_10[1], 
-                                  apply(top50_agg_10[-1],2,
-                                        function(x){(x-min(x)) / diff(range(x))})) 
+                           apply(top50_agg_10[-1],2,
+                                 function(x){(x-min(x)) / diff(range(x))})) 
 
 radarDF <- gather(top50_agg_norm_10, key=Attribute, value=Score, -country) %>%
   spread(key=country, value=Score)
@@ -99,7 +99,7 @@ chartJSRadar(scores = radarDF,
              maxScale =1, 
              showToolTipLabel = TRUE)
 
-#Now on to the clistering!
+#Now on to the clustering!
 
 #Before we get started we first want to rescale the numeric variables
 scaledFeatures <- scale(top50_agg[-1])
@@ -123,6 +123,7 @@ kmeans_plot <- autoplot(k_means,
                         label.size = 3, label.repel = T) + scale_fill_manual(values = c("#000066","#9999CC", "#66CC99"))+ scale_color_manual(values = c("#000066", "#9999CC", "#66CC99")) + theme(plot.title=element_text(size=18, face="bold"))
 
 
+kmeans_plot
 #This looks a bit messy, as its so topical lets restrict it to EU countries.
 scaledFeaturesEU <- scaledFeatures[c("AUSTRIA", "BELGIUM", "BULGARIA", "CYPRUS", "CZECHREPUBLIC", "DENMARK", "ESTONIA", "FINLAND", "FRANCE", "GERMANY", "GREECE", "HUNGARY", "IRELAND", "ITALY", "LATVIA", "LITHUANIA", "LUXEMBOURG", "MALTA", "NETHERLANDS", "POLAND", "PORTUGAL", "ROMANIA", "SLOVAKIA", "SPAIN", "SWEDEN", "UNITEDKINGDOM"),]
 
@@ -130,11 +131,11 @@ scaledFeaturesEU <- scaledFeatures[c("AUSTRIA", "BELGIUM", "BULGARIA", "CYPRUS",
 set.seed(345)
 k_meansEU <- kmeans(scaledFeaturesEU, 3)
 kmeans_plotEU <- autoplot(k_meansEU,
-                        main= "K-means clustering",
-                        data = scaledFeaturesEU,
-                        loadings = TRUE, loadings.colour = "#CC0000",loadings.label.colour = "#CC0000",
-                        loadings.label = TRUE, loadings.label.size = 3,  loadings.label.repel=T,
-                        label.size = 3, label.repel = T) + scale_fill_manual(values = c("#000066","#9999CC", "#66CC99"))+ scale_color_manual(values = c("#000066", "#9999CC", "#66CC99")) + theme(plot.title=element_text(size=18, face="bold"))
+                          main= "K-means clustering",
+                          data = scaledFeaturesEU,
+                          loadings = TRUE, loadings.colour = "#CC0000",loadings.label.colour = "#CC0000",
+                          loadings.label = TRUE, loadings.label.size = 3,  loadings.label.repel=T,
+                          label.size = 3, label.repel = T) + scale_fill_manual(values = c("#000066","#9999CC", "#66CC99"))+ scale_color_manual(values = c("#000066", "#9999CC", "#66CC99")) + theme(plot.title=element_text(size=18, face="bold"))
 
 
 #We can tweak this to form 4 clusters, by changing the centers argument for kmeans. 
@@ -142,20 +143,20 @@ kmeans_plotEU <- autoplot(k_meansEU,
 set.seed(345)
 k_meansEU4 <- kmeans(scaledFeaturesEU, 4)
 kmeans_plotEU4 <- autoplot(k_meansEU4,
-                        main= "K-means clustering",
-                        data = scaledFeaturesEU,
-                        loadings = TRUE, loadings.colour = "#CC0000",loadings.label.colour = "#CC0000",
-                        loadings.label = TRUE, loadings.label.size = 3,  loadings.label.repel=T,
-                        label.size = 3, label.repel = T) + scale_fill_manual(values = c("#000066","#9999CC", "#66CC99", "#e7e247"))+ scale_color_manual(values = c("#000066", "#9999CC", "#66CC99", "#e7e247")) + theme(plot.title=element_text(size=18, face="bold"))
+                           main= "K-means clustering",
+                           data = scaledFeaturesEU,
+                           loadings = TRUE, loadings.colour = "#CC0000",loadings.label.colour = "#CC0000",
+                           loadings.label = TRUE, loadings.label.size = 3,  loadings.label.repel=T,
+                           label.size = 3, label.repel = T) + scale_fill_manual(values = c("#000066","#9999CC", "#66CC99", "#e7e247"))+ scale_color_manual(values = c("#000066", "#9999CC", "#66CC99", "#e7e247")) + theme(plot.title=element_text(size=18, face="bold"))
 
 
 k_means4 <- kmeans(scaledFeatures, 4)
 kmeans_plot4 <- autoplot(k_means4,
-                        main= "K-means clustering",
-                        data = scaledFeatures,
-                        loadings = TRUE, loadings.colour = "#CC0000",loadings.label.colour = "#CC0000",
-                        loadings.label = TRUE, loadings.label.size = 3,  loadings.label.repel=T,
-                        label.size = 3, label.repel = T) + scale_fill_manual(values = c("#000066","#9999CC", "#66CC99"))+ scale_color_manual(values = c("#000066", "#9999CC", "#66CC99")) + theme(plot.title=element_text(size=18, face="bold"))
+                         main= "K-means clustering",
+                         data = scaledFeatures,
+                         loadings = TRUE, loadings.colour = "#CC0000",loadings.label.colour = "#CC0000",
+                         loadings.label = TRUE, loadings.label.size = 3,  loadings.label.repel=T,
+                         label.size = 3, label.repel = T) + scale_fill_manual(values = c("#000066","#9999CC", "#66CC99"))+ scale_color_manual(values = c("#000066", "#9999CC", "#66CC99")) + theme(plot.title=element_text(size=18, face="bold"))
 
 
 
@@ -185,7 +186,7 @@ colnames(countries_clusters) <- c("Country", "Cluster")
 WorldMap=gvisGeoChart(data = countries_clusters,locationvar="Country", colorvar="Cluster",
                       options=list(projection="kavrayskiy-vii",
                                    colorAxis="{colors:['#000066', '#9999CC', '#66CC99']}"
-                                   ))
+                      ))
 plot(WorldMap)
 
 countries_clusters <- as_tibble(rownames_to_column(as_data_frame(k_means4$cluster)))
@@ -198,15 +199,12 @@ plot(WorldMap)
 
 #radarchart
 top50_agg_norm_83 <- cbind(top50_agg[1], 
-                                  apply(top50_agg[-1],2,
-                                        scale)) 
-
-
+                           apply(top50_agg[-1],2,
+                                 scale)) 
 
 
 # Converting cluster to vector
 
-top50_agg_norm_83 <- cbind(top50_agg_norm_83, cluster = clusters)
 
 library(radarchart)
 library(tidyr)
@@ -234,6 +232,7 @@ clusters <- str_replace_all(clusters, "3", "Cluster 3")
 clusters[28] <- "Global"
 
 # Showing only Danceability
+top50_agg_norm_83 <- cbind(top50_agg_norm_83, cluster = clusters)
 danceability_subset <- top50_agg_norm_83[,c("country","danceability", "cluster")]
 
 library(ggplot2)
@@ -241,7 +240,7 @@ library(ggplot2)
 danceability_subset <- danceability_subset[order(danceability_subset$danceability, decreasing = TRUE), ]
 
 danceability_plot <- ggplot(danceability_subset, aes(x = reorder(country, danceability), y = danceability, label=danceability)) + xlab("Country") + ylab("Danceability") + geom_bar(stat='identity', aes(fill=cluster), width = .5) + scale_fill_manual(name="Cluster",
-                                                                                                                                                                                                                                                       labels = c("Cluster 1", "Cluster 2", "Cluster 3", "Global"), 
+                                                                                                                                                                                                                                                        labels = c("Cluster 1", "Cluster 2", "Cluster 3", "Global"), 
                                                                                                                                                                                                                                                         values = c("Cluster 1"="#000066", "Cluster 2"="#9999CC", "Cluster 3" = "#66CC99", "Global" = "indianred2")) + labs(title="Danceability feature", subtitle= "Diverging Bars") + coord_flip()
 danceability_plot
 
@@ -260,6 +259,7 @@ loudness_plot <- ggplot(loudness_subset, aes(x = reorder(country, loudness),
                                                                                                                     labels = c("Cluster 1", "Cluster 2", "Cluster 3", "Global"), 
                                                                                                                     values = c("Cluster 1"="#000066", "Cluster 2"="#9999CC", "Cluster 3" = "#66CC99", "Global" = "indianred2")) 
 + labs(title="Loudness feature", subtitle= "Diverging Bars") + coord_flip()
+
 loudness_plot
 
 
